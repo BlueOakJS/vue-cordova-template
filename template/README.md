@@ -20,17 +20,10 @@ npm run build --report
 
 # run unit tests
 npm run unit
-{{/unit}}
-{{#e2e}}
-
-# run e2e tests
-npm run e2e
-{{/e2e}}
-{{#if_or unit e2e}}
 
 # run all tests
 npm test
-{{/if_or}}
+{{/unit}}
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

@@ -12,11 +12,7 @@ module.exports = {
     app: './src/main.js'
   },
   output: {
-    path: config.build.assetsRoot,
-    filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath
+    path: config.build.assetsRoot
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -63,7 +59,9 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
+          name: '[name].[hash:7].[ext]',
+          outputPath: utils.assetsPath('fonts/'),
+          publicPath: process.env.NODE_ENV === 'production' ? '../fonts/' : utils.assetsPath('fonts/')
         }
       }
     ]

@@ -1,3 +1,5 @@
+var cordova = require('./cordova.js');
+
 module.exports = {
   "helpers": {
     "if_or": function (v1, v2, options) {
@@ -12,7 +14,7 @@ module.exports = {
     "name": {
       "type": "string",
       "required": true,
-      "message": "Project name"
+      message: 'What is the app name? (should be 1 word)'
     },
     "description": {
       "type": "string",
@@ -39,10 +41,6 @@ module.exports = {
           "short": "runtime"
         }
       ]
-    },
-    "router": {
-      "type": "confirm",
-      "message": "Install vue-router?"
     },
     "lint": {
       "type": "confirm",
@@ -74,19 +72,41 @@ module.exports = {
       "type": "confirm",
       "message": "Setup unit tests with Karma + Mocha?"
     },
-    "e2e": {
-      "type": "confirm",
-      "message": "Setup e2e tests with Nightwatch?"
+    cordovaPackageName: {
+      message: 'What is the app ID? (reverse-domain-style name: com.company.Name)',
+      default: 'com.pointsource.someNewApp'
+    },
+    isCordovaIOS: {
+      type: 'confirm',
+      message: 'Should the hybrid app run on iOS?',
+    },
+    isCordovaAndroid: {
+      type: 'confirm',
+      message: 'Should the hybrid app run on Android?',
     }
   },
   "filters": {
     ".eslintrc.js": "lint",
     ".eslintignore": "lint",
-    "config/test.env.js": "unit || e2e",
+    "config/test.env.js": "unit",
     "test/unit/**/*": "unit",
-    "build/webpack.test.conf.js": "unit",
-    "test/e2e/**/*": "e2e",
-    "src/router/**/*": "router"
+    "build/webpack.test.conf.js": "unit"
   },
-  "completeMessage": "To get started:\n\n  {{^inPlace}}cd {{destDirName}}\n  {{/inPlace}}npm install\n  npm run dev\n\nDocumentation can be found at https://vuejs-templates.github.io/webpack"
+  complete: complete
 };
+
+function complete(data, {chalk, logger, files}) {
+  var installPromise = cordova.installCordova(data, {chalk, logger, files});
+
+  installPromise.then(
+    function() {
+      var msg =
+        "To get started:\n\n" +
+        (!data.inPlace ? "  cd " + data.destDirName + "\n" : "") +
+        "  npm install\n" +
+        "  npm run dev\n\n" +
+        "Documentation can be found at https://blueoakjs.github.io/vue-cordova-template";
+      logger.log(msg);
+    }
+  );
+}

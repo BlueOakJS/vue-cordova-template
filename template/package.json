@@ -13,7 +13,7 @@
     "lint": "eslint --ext .js,.vue src{{#unit}} test/unit/specs{{/unit}}"{{/lint}}
   },
   "dependencies": {
-    "vue": "^2.1.10"
+    "vue": "^2.1.10",
     "vue-router": "^2.2.0"
   },
   "devDependencies": {

@@ -1,0 +1,11 @@
+# syntax: http://git-scm.com/docs/gitignore
+
+########################################
+# Environment
+.idea
+.DS_Store
+npm-debug.log
+
+########################################
+# App
+/node_modules

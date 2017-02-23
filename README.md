@@ -1,4 +1,12 @@
-# vue-webpack-boilerplate
+# vue-cordova-template
+
+**Important**
+
+For the time being, this template requires a newer version of vue-cli than what has been published on npm.
+
+To get the latest,
+
+`npm i -g https://github.com/vuejs/vue-cli.git`
 
 > A full-featured Webpack setup with hot-reload, lint-on-save, unit testing & css extraction.
 

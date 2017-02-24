@@ -49,7 +49,6 @@ module.exports = {
     "no-script-url": 2,
     "no-sequences": 2,
     "no-shadow": 2,
-    "no-undef": 2,
     "no-unused-vars": ["error", { "args": "none" }],
     "no-with": 2,
     "quotes": [

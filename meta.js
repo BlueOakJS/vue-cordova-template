@@ -1,4 +1,5 @@
 var cordova = require('./cordova.js');
+var procSpawn = require('./bundled/node_modules/superspawn').spawn;
 
 module.exports = {
   "helpers": {
@@ -46,28 +47,6 @@ module.exports = {
       "type": "confirm",
       "message": "Use ESLint to lint your code?"
     },
-    "lintConfig": {
-      "when": "lint",
-      "type": "list",
-      "message": "Pick an ESLint preset",
-      "choices": [
-        {
-          "name": "Standard (https://github.com/feross/standard)",
-          "value": "standard",
-          "short": "Standard"
-        },
-        {
-          "name": "Airbnb (https://github.com/airbnb/javascript)",
-          "value": "airbnb",
-          "short": "Airbnb"
-        },
-        {
-          "name": "none (configure it yourself)",
-          "value": "none",
-          "short": "none"
-        }
-      ]
-    },
     "unit": {
       "type": "confirm",
       "message": "Setup unit tests with Karma + Mocha?"
@@ -100,13 +79,25 @@ function complete(data, {chalk, logger, files}) {
 
   installPromise.then(
     function() {
+      logger.log(chalk.yellow('Running npm install'));
+
+      return procSpawn('npm', ['install'], {
+        printCommand: true,
+        stdio: 'inherit'
+      });
+    }
+  ).then(
+    function() {
       var msg =
         "To get started:\n\n" +
         (!data.inPlace ? "  cd " + data.destDirName + "\n" : "") +
-        "  npm install\n" +
         "  npm run dev\n\n" +
         "Documentation can be found at https://blueoakjs.github.io/vue-cordova-template";
       logger.log(msg);
+    },
+
+    function(err) {
+      logger.fatal(chalk.red.bold('npm install error: ' + err));
     }
   );
 }

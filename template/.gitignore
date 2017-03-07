@@ -3,7 +3,7 @@ node_modules/
 dist/
 npm-debug.log
 {{#unit}}
-test/unit/coverage
+test/coverage
 {{/unit}}
 cordova/www
 cordova/platforms/ios/www

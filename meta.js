@@ -49,7 +49,7 @@ module.exports = {
     },
     "unit": {
       "type": "confirm",
-      "message": "Setup unit tests with Karma + Mocha?"
+      "message": "Setup unit tests with Mocha?"
     },
     cordovaPackageName: {
       message: 'What is the app ID? (reverse-domain-style name: com.company.Name)',

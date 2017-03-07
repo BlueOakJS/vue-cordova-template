@@ -1,6 +1,6 @@
 import '../.setupVueTest';
 import { mount } from 'vue-test';
-import Hello from 'src/components/Hello';
+import Hello from '@/components/Hello';
 
 describe('Hello.vue', () => {
 	it('should mount', () => {

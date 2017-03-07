@@ -7,7 +7,7 @@ var baseConfig = require('./webpack.base.conf');
 var webpackConfig = merge(baseConfig, {
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.common.js'
+      'vue$': 'vue/dist/vue.esm.js'
     }
   },
   plugins: [

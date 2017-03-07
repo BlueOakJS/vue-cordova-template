@@ -18,3 +18,5 @@ if (window.cordova) {
 } else {
 	startVue();
 }
+
+Vue.config.productionTip = false;

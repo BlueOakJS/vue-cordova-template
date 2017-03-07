@@ -35,8 +35,7 @@ module.exports.installCordova = function(data, {chalk, logger, files}) {
 		},
 
 		function(err) {
-			logger.log(chalk.red.bold('Cordova create error: ' + err));
-			logger.fatal('Cordova create error: ' + err);
+			logger.fatal(chalk.red.bold('Cordova create error: ' + err));
 		}
 	).then(
 		function() {
@@ -56,8 +55,7 @@ module.exports.installCordova = function(data, {chalk, logger, files}) {
 		},
 
 		function(err) {
-			logger.log(chalk.red.bold('Cordova add ios error: ' + err));
-			logger.fatal('Cordova add ios error: ' + err);
+			logger.fatal(chalk.red.bold('Cordova add ios error: ' + err));
 		}
 	).then(
 		function() {
@@ -65,7 +63,7 @@ module.exports.installCordova = function(data, {chalk, logger, files}) {
 				fs.writeFileSync('cordova/platforms/android/assets/.gitkeep', '');
 			}
 
-			logger.log(chalk.yellow('Adding Splashscreen Cordova plugin'));
+			logger.log(chalk.yellow('Adding Cordova splashscreen plugin'));
 			return procSpawn('cordova', ['plugin', 'add', 'cordova-plugin-splashscreen', '--save'], {
 				cwd: cordovaDir,
 				printCommand: true,
@@ -74,15 +72,13 @@ module.exports.installCordova = function(data, {chalk, logger, files}) {
 		},
 
 		function(err) {
-			logger.log(chalk.red.bold('Cordova add android error: ' + err));
-			logger.fatal('Cordova add android error: ' + err);
+			logger.fatal(chalk.red.bold('Cordova add android error: ' + err));
 		}
 	).then(
 		null,
 
 		function(err) {
-			logger.log(chalk.red.bold('Cordova add Splashscreen plugin error: ' + err));
-			logger.fatal('Cordova add Splashscreen plugin error: ' + err);
+			logger.fatal(chalk.red.bold('Cordova add splashscreen plugin error: ' + err));
 		}
 	);
 };

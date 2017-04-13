@@ -8,13 +8,9 @@ yarn-error.log*
 test/coverage
 {{/unit}}
 cordova/www
-cordova/platforms/ios/www
-cordova/platforms/android/assets/www
-cordova/platforms/android/CordovaLib/build
-cordova/platforms/android/.gradle
-!cordova/platforms/android/cordova/node_modules
-!cordova/platforms/ios/cordova/node_modules
-!cordova/plugins/cordova-plugin-mfp/hooks/node_modules
+cordova/platforms/
+cordova/plugins/
+cordova/build.json
 UserInterfaceState.xcuserstate
 .tmp/
 dist/

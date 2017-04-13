@@ -1,21 +1,26 @@
 var path = require('path')
 var utils = require('./utils')
-var config = require('../config')
+var webpack = require('webpack');
 var vueLoaderConfig = require('./vue-loader.conf')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-module.exports = {
+function buildWebpackConfig(buildConfig, config) {
+  return {
   entry: {
     app: './src/main.js'
   },
   output: {
-    path: config.build.assetsRoot
+      path: buildConfig.assetsRoot
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
+      modules: [
+        resolve('src'),
+        resolve('node_modules')
+      ],
     alias: {
       {{#if_eq build "standalone"}}
       'vue$': 'vue/dist/vue.esm.js',
@@ -23,6 +28,11 @@ module.exports = {
       '@': resolve('src')
     }
   },
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': '"' + buildConfig.buildType + '"'
+      })
+    ],
   module: {
     rules: [
       {{#lint}}
@@ -39,7 +49,7 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: vueLoaderConfig
+        options: vueLoaderConfig(buildConfig)
       },
       {
         test: /\.js$/,
@@ -51,7 +61,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('img/[name].[hash:7].[ext]')
+          name: utils.assetsPath(buildConfig, 'img/[name].[hash:7].[ext]')
         }
       },
       {
@@ -60,10 +70,13 @@ module.exports = {
         options: {
           limit: 10000,
           name: '[name].[hash:7].[ext]',
-          outputPath: utils.assetsPath('fonts/'),
-          publicPath: process.env.NODE_ENV === 'production' ? '../fonts/' : utils.assetsPath('fonts/')
+          outputPath: utils.assetsPath(buildConfig, 'fonts/'),
+          publicPath: buildConfig.buildType === 'production' ? '../fonts/' : utils.assetsPath(buildConfig, 'fonts/')
         }
       }
     ]
   }
 }
+}
+
+module.exports = buildWebpackConfig;

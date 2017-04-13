@@ -1,12 +1,17 @@
 var utils = require('./utils')
-var config = require('../config')
-var isProduction = process.env.NODE_ENV === 'production'
 
-module.exports = {
-  loaders: utils.cssLoaders({
-    sourceMap: isProduction
-      ? config.build.productionSourceMap
-      : config.dev.cssSourceMap,
-    extract: isProduction
-  })
+function buildVueLoaderConfig(buildConfig) {
+  return {
+    loaders: utils.cssLoaders({
+      sourceMap: buildConfig.cssSourceMap,
+      extract: buildConfig.extractCss
+    }),
+    postcss: [
+      require('autoprefixer')({
+        browsers: ['last 2 versions']
+      })
+    ]
+  }
 }
+
+module.exports = buildVueLoaderConfig;

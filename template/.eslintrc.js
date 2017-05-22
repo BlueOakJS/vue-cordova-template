@@ -1,5 +1,9 @@
-// http://eslint.org/docs/user-guide/configuring
+var utils = require('./build/apputils')
+var config = require('./config')
+var buildConfig = config[utils.getEnv()].build;
+var buildBaseWebpackConfig = require('./build/webpack.base.conf');
 
+// http://eslint.org/docs/user-guide/configuring
 module.exports = {
   root: true,
   parser: 'babel-eslint',
@@ -18,7 +22,11 @@ module.exports = {
   settings: {
     'import/resolver': {
       webpack: {
-        config: 'build/webpack.base.conf.js'
+        config: {
+          resolve: {
+            extensions: [ buildBaseWebpackConfig(buildConfig, config).resolve.extensions ]
+          }
+        }
       }
     }
   },

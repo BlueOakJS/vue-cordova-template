@@ -1,21 +1,27 @@
-# vue-webpack-boilerplate
+# vue-cordova-template
 
-> A full-featured Webpack setup with hot-reload, lint-on-save, unit testing & css extraction.
+**Important**
 
-> This template is Vue 2.0 compatible. For Vue 1.x use this command: `vue init webpack#1.0 my-project`
+For the time being, this template requires a newer version of vue-cli than what has been published on npm.
+
+To get the latest,
+
+`npm i -g https://github.com/vuejs/vue-cli.git`
+
+> A full-featured Vue template for Cordova using Webpack build.
 
 ## Documentation
 
-- [For this template](http://vuejs-templates.github.io/webpack): common questions specific to this template are answered and each part is described in greater detail
+- [For this template](http://blueoakjs.github.io/vue-cordova-template): common questions specific to this template are answered and each part is described in greater detail
 - [For Vue 2.0](http://vuejs.org/guide/): general information about how to work with Vue, not specific to this template
 
 ## Usage
 
-This is a project template for [vue-cli](https://github.com/vuejs/vue-cli). **It is recommended to use npm 3+ for a more efficient dependency tree.**
+This is a project template for [vue-cli](https://github.com/vuejs/vue-cli).
 
 ``` bash
-$ npm install -g vue-cli
-$ vue init webpack my-project
+$ npm install -g https://github.com/vuejs/vue-cli.git
+$ vue init blueoakjs/vue-cordova-template my-project
 $ cd my-project
 $ npm install
 $ npm run dev
@@ -43,17 +49,3 @@ If port 8080 is already in use on your machine you must change the port number i
   - Supports ES2015+ in test files.
   - Supports all webpack loaders.
   - Easy mock injection.
-
-- `npm run e2e`: End-to-end tests with [Nightwatch](http://nightwatchjs.org/).
-  - Run tests in multiple browsers in parallel.
-  - Works with one command out of the box:
-    - Selenium and chromedriver dependencies automatically handled.
-    - Automatically spawns the Selenium server.
-
-### Fork It And Make Your Own
-
-You can fork this repo to create your own boilerplate, and use it with `vue-cli`:
-
-``` bash
-vue init username/repo my-project
-```

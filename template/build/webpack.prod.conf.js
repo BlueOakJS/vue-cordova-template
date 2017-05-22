@@ -1,36 +1,30 @@
 var path = require('path')
 var utils = require('./utils')
 var webpack = require('webpack')
-var config = require('../config')
 var merge = require('webpack-merge')
-var baseWebpackConfig = require('./webpack.base.conf')
+var buildBaseWebpackConfig = require('./webpack.base.conf');
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+var HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
 
-var env = {{#if_or unit e2e}}process.env.NODE_ENV === 'testing'
-  ? require('../config/test.env')
-  : {{/if_or}}config.build.env
 
-var webpackConfig = merge(baseWebpackConfig, {
+function buildWebpackConfig(buildConfig) {
+  var webpackConfig = merge(buildBaseWebpackConfig(buildConfig), {
   module: {
     rules: utils.styleLoaders({
-      sourceMap: config.build.productionSourceMap,
+        sourceMap: buildConfig.cssSourceMap,
       extract: true
     })
   },
-  devtool: config.build.productionSourceMap ? '#source-map' : false,
+    devtool: buildConfig.productionSourceMap ? '#source-map' : false,
   output: {
-    path: config.build.assetsRoot,
-    filename: utils.assetsPath('js/[name].[chunkhash].js'),
-    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
+      filename: utils.assetsPath(buildConfig, 'js/[name].[chunkhash].js'),
+      chunkFilename: utils.assetsPath(buildConfig, 'js/[id].[chunkhash].js'),
+      publicPath: buildConfig.assetsPublicPath
   },
   plugins: [
-    // http://vuejs.github.io/vue-loader/en/workflow/production.html
-    new webpack.DefinePlugin({
-      'process.env': env
-    }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
@@ -39,7 +33,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     }),
     // extract css into its own file
     new ExtractTextPlugin({
-      filename: utils.assetsPath('css/[name].[contenthash].css')
+        filename: utils.assetsPath(buildConfig, 'css/[name].[contenthash].css')
     }),
     // Compress extracted CSS. We are using this plugin so that possible
     // duplicated CSS from different components can be deduped.
@@ -52,9 +46,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: {{#if_or unit e2e}}process.env.NODE_ENV === 'testing'
-        ? 'index.html'
-        : {{/if_or}}config.build.index,
+        filename: buildConfig.index,
       template: 'index.html',
       inject: true,
       minify: {
@@ -67,6 +59,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
     }),
+    new HtmlWebpackIncludeAssetsPlugin({ assets: ['cordova.js'], append: false }),
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
@@ -91,14 +84,14 @@ var webpackConfig = merge(baseWebpackConfig, {
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../static'),
-        to: config.build.assetsSubDirectory,
+          to: buildConfig.assetsSubDirectory,
         ignore: ['.*']
       }
     ])
   ]
 })
 
-if (config.build.productionGzip) {
+  if (buildConfig.productionGzip) {
   var CompressionWebpackPlugin = require('compression-webpack-plugin')
 
   webpackConfig.plugins.push(
@@ -107,7 +100,7 @@ if (config.build.productionGzip) {
       algorithm: 'gzip',
       test: new RegExp(
         '\\.(' +
-        config.build.productionGzipExtensions.join('|') +
+          buildConfig.productionGzipExtensions.join('|') +
         ')$'
       ),
       threshold: 10240,
@@ -116,9 +109,13 @@ if (config.build.productionGzip) {
   )
 }
 
-if (config.build.bundleAnalyzerReport) {
+  if (buildConfig.bundleAnalyzerReport) {
   var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
-module.exports = webpackConfig
+  return webpackConfig;
+}
+
+module.exports = buildWebpackConfig;
+

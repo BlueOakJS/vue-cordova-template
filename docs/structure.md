@@ -17,14 +17,9 @@
 ├── static/                     # pure static assets (directly copied)
 ├── test/
 │   └── unit/                   # unit tests
-│   │   ├── specs/              # test spec files
-│   │   ├── index.js            # test build entry file
-│   │   └── karma.conf.js       # test runner config file
-│   └── e2e/                    # e2e tests
-│   │   ├── specs/              # test spec files
-│   │   ├── custom-assertions/  # custom assertions for e2e tests
-│   │   ├── runner.js           # test runner script
-│   │   └── nightwatch.conf.js  # test runner config file
+│       ├── specs/              # test spec files
+│       ├── index.js            # test build entry file
+│       └── karma.conf.js       # test runner config file
 ├── .babelrc                    # babel config
 ├── .postcssrc.js               # postcss config
 ├── .eslintrc.js                # eslint config
@@ -54,10 +49,6 @@ See [Handling Static Assets](static.md) for more details.
 ### `test/unit`
 
 Contains unit test related files. See [Unit Testing](unit.md) for more details.
-
-### `test/e2e`
-
-Contains e2e test related files. See [End-to-end Testing](e2e.md) for more details.
 
 ### `index.html`
 

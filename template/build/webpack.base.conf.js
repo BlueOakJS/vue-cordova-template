@@ -7,7 +7,7 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-function buildWebpackConfig(buildConfig, config) {
+function buildWebpackConfig(buildConfig) {
   return {
   entry: {
     app: './src/main.js'

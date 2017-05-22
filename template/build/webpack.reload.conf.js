@@ -7,8 +7,8 @@ var HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin
 var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
 
-function buildWebpackConfig(buildConfig, config) {
-  var baseWebpackConfig = buildBaseWebpackConfig(buildConfig, config);
+function buildWebpackConfig(buildConfig) {
+  var baseWebpackConfig = buildBaseWebpackConfig(buildConfig);
 
   // add hot-reload related code to entry chunks
   Object.keys(baseWebpackConfig.entry).forEach(function (name) {

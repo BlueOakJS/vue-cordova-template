@@ -25,7 +25,7 @@ function runPrepare(platform) {
 
 
 function buildCordovaAndroid(buildConfig, config) {
-	if (buildConfig.buildType == 'production' && (!config.cordova.androidkeystorename || !config.cordova.androidkeyaliasname))
+	if (buildConfig.buildType == 'production' && (!buildConfig.cordova.androidkeystorename || !buildConfig.cordova.androidkeyaliasname))
 		console.log(chalk.red('WARNING: Android keystore not configured for release build.  Use yo blueoak:create-keystore to create and configure one.'));
 
 	var keystorePassword = process.env.KEYSTORE_PASSWORD;
@@ -36,22 +36,27 @@ function buildCordovaAndroid(buildConfig, config) {
 	if (cliOptions.keypass)
 		keyPassword = cliOptions.keypass;
 
-	var sign = config.cordova.androidkeystorename && config.cordova.androidkeyaliasname;
+	var sign = buildConfig.cordova.androidkeystorename && buildConfig.cordova.androidkeyaliasname;
 	var release = buildConfig.buildType == 'production' || sign;
 
 	if (sign) {
-		var data = [];
+		var buildOptions = {
+			android: {
+			}
+		};
+		var buildSection = buildOptions.android[appBuildType(buildConfig.buildType)] = {};
 
 		// Add all the options related to key signing to the array to be added to 'release-signing.properties'
-		data.push('storeFile=' + config.cordova.androidkeystorename);
-		data.push('keyAlias=' + config.cordova.androidkeyaliasname);
+		buildSection.keystore = buildConfig.cordova.androidkeystorename;
+		buildSection.alias = buildConfig.cordova.androidkeyaliasname;
+		buildSection.keystoreType = '';
 		if (keystorePassword)
-			data.push('storePassword=' + keystorePassword);
+			buildSection.storePassword = keystorePassword;
 		if (keyPassword)
-			data.push('keyPassword=' + keyPassword);
+			buildSection.password = keyPassword;
 
-		// Write the release-signing.properties file
-		fs.writeFileSync(path.join('cordova', 'release-signing.properties'), data.join(os.EOL));
+		// Write the build.json file
+		fs.writeFileSync(path.join('cordova', 'build.json'), JSON.stringify(buildOptions));
 	}
 
 	return runPrepare('android').then(compileApp.bind(null, 'android', buildConfig, config)).then(

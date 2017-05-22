@@ -17,6 +17,9 @@ module.exports = function startDevServer(webpackConfig, buildConfig, autoOpenBro
   var devMiddleware = require('webpack-dev-middleware')(compiler, {
     publicPath: webpackConfig.output.publicPath,
     quiet: true
+	// Uncomment these lines to get verbose debuggin info about the build
+    // noInfo: false,
+    // stats: {maxModules: Infinity, exclude: undefined}
   })
 
   var hotMiddleware = require('webpack-hot-middleware')(compiler, {
@@ -52,6 +55,11 @@ module.exports = function startDevServer(webpackConfig, buildConfig, autoOpenBro
   // serve pure static assets
   var staticPath = path.posix.join(buildConfig.assetsPublicPath, buildConfig.assetsSubDirectory)
   app.use(staticPath, express.static('./static'))
+
+  // Serve cordova.js
+  app.use('/cordova.js', express.static(path.join('./cordova/platforms', 'ios', 'www', 'cordova.js')));
+  app.use('/cordova_plugins.js', express.static(path.join('./cordova/platforms', 'ios', 'www', 'cordova_plugins.js')));
+  app.use('/plugins', express.static(path.join('./cordova/platforms', 'ios', 'www', 'plugins')));
 
   var uri = 'http://localhost:' + port
 
